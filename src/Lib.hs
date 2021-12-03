@@ -37,7 +37,7 @@ parser = try nullParser <|> try boolParser <|> try numberParser <|>
              try stringParser <|> try arrayParser <|> try objectParser
 
 arrayParser :: Parsec String () JsonValue
-arrayParser = JsonArray <$> between (char '[') (char ']') (spaces *> elements <* spaces)
+arrayParser = JsonArray <$> between (char '[') (char ']') (try (spaces *> elements <* spaces) <|> pure [])
                 where
                     elements =
                         (spaces *> parser <* spaces) `sepBy1` (spaces *> char ',' <* spaces)

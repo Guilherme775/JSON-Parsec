@@ -52,7 +52,7 @@
             "type": "ArrowFunctionExpression",
             "generator": false,
             "id": null,
-            "params": [1],
+            "params": [],
             "body": {
               "type": "BlockStatement",
               "body": [
@@ -73,10 +73,10 @@
                         "type": "ArrowFunctionExpression",
                         "generator": false,
                         "id": null,
-                        "params": [1],
+                        "params": [],
                         "body": {
                           "type": "BlockStatement",
-                          "body": [1],
+                          "body": [],
                           "range": [
                             65,
                             67
@@ -91,7 +91,7 @@
                       },
                       {
                         "type": "ArrayExpression",
-                        "elements": [1],
+                        "elements": [],
                         "range": [
                           68,
                           70
@@ -829,7 +829,7 @@
                                       ]
                                     },
                                     "closingElement": null,
-                                    "children": [1],
+                                    "children": [],
                                     "range": [
                                       531,
                                       593
@@ -1118,7 +1118,7 @@
                                   ]
                                 },
                                 "closingElement": null,
-                                "children": [1],
+                                "children": [],
                                 "range": [
                                   754,
                                   801
