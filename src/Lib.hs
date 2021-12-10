@@ -7,13 +7,15 @@ import Control.Monad
 import qualified Data.Functor.Identity
 import Data.List
 import Data.Char
+import qualified Data.Map as Map
+import Data.Map ( Map, fromList )
 
 data JsonValue = JsonNull
                | JsonBool Bool
                | JsonNumber Double
                | JsonString String
                | JsonArray [JsonValue]
-               | JsonObject [(String, JsonValue)]
+               | JsonObject (Map String JsonValue)
                deriving(Show)
 
 nullParser :: Parsec String () JsonValue
@@ -43,12 +45,13 @@ arrayParser = JsonArray <$> between (char '[') (char ']') (try (spaces *> elemen
                         (spaces *> parser <* spaces) `sepBy1` (spaces *> char ',' <* spaces)
 
 objectParser :: Parsec String () JsonValue
-objectParser = JsonObject <$> between (char '{') (char '}') (spaces *> elements `sepBy1` (spaces *> char ',' <* spaces) <* spaces)
+objectParser = JsonObject . fromList <$> between (char '{') (char '}') (spaces *> elements `sepBy1` (spaces *> char ',' <* spaces) <* spaces)
                     where
-                        elements = (\key _ value -> (key, value)) <$>
-                            between (char '"') (char '"') (many $ noneOf ['"']) <*>
-                            (spaces *> char ':' <* spaces) <*>
-                            (spaces *> parser <* spaces)
+                        elements = do
+                            key   <- between (char '"') (char '"') (many $ noneOf ['"'])
+                            _     <- spaces *> char ':' <* spaces
+                            value <- spaces *> parser <* spaces
+                            pure (key, value)
 
 eval :: String -> Either ParseError JsonValue
 eval = parse parser "unknown"
